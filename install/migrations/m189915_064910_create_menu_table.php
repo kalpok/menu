@@ -20,6 +20,7 @@ class m189915_064910_create_menu_table extends Migration
             'route' => $this->string(),
             'params' => $this->string(),
             'url' => $this->text(),
+            'isActive' => $this->boolean()->notNull()->defaultValue(1),
             'tree' => $this->integer()->notNull(),
             'lft' => $this->integer()->notNull(),
             'rgt' => $this->integer()->notNull(),

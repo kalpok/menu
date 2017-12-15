@@ -1,6 +1,8 @@
 <?php
 namespace modules\menu\common\models;
 
+use creocoder\nestedsets\NestedSetsBehavior;
+
 class Menu extends \yii\db\ActiveRecord
 {
     public static function tableName()
@@ -10,6 +12,11 @@ class Menu extends \yii\db\ActiveRecord
 
     public function behaviors()
     {
-        return [];
+        return [
+            'tree' => [
+                'class' => NestedSetsBehavior::className(),
+                'treeAttribute' => 'tree',
+            ],
+        ];
     }
 }
