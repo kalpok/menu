@@ -5,6 +5,7 @@ use Yii;
 use yii\filters\AccessControl;
 use modules\menu\backend\models\Menu;
 use modules\menu\backend\models\MenuSearch;
+use modules\menu\backend\models\LinkMenuItem;
 
 class ManageController extends \yii\web\Controller
 {
@@ -13,6 +14,19 @@ class ManageController extends \yii\web\Controller
         return array_merge(
             parent::behaviors(),
             [
+                [
+                    'class' => \yii\filters\VerbFilter::className(),
+                    'actions' => [
+                        'save-json-tree' => ['post'],
+                    ],
+                ],
+                [
+                    'class' => \yii\filters\ContentNegotiator::className(),
+                    'only' => ['get-json-tree', 'save-json-tree'],
+                    'formats' => [
+                        'application/json' => \yii\web\Response::FORMAT_JSON,
+                    ]
+                ],
                 'access' => [
                     'class' => AccessControl::className(),
                     'rules' => [
@@ -42,6 +56,7 @@ class ManageController extends \yii\web\Controller
         $model = new Menu();
         $model->loadDefaultValues();
         if ($model->load(Yii::$app->request->post())) {
+            $model->type = 'root';
             if ($model->makeRoot()) {
                 Yii::$app->session->addFlash(
                     'success',
@@ -82,6 +97,47 @@ class ManageController extends \yii\web\Controller
             );
         }
         return $this->redirect(['index']);
+    }
+
+    public function actionTree($id)
+    {
+        $root = $this->findModel($id);
+        return $this->render('tree', [
+            'root' => $root,
+            'linkItem' => new LinkMenuItem
+        ]);
+    }
+
+    public function actionGetJsonTree($id)
+    {
+        $root = $this->findModel($id);
+        // return $root->getFamilyTree();
+        return [
+            [
+                'name' => 'node1',
+                'id' => 123,
+                'children' => [
+                    [
+                        'name' => 'child1',
+                        'id' => 13,
+                    ],
+                    [
+                        'name' => 'child2',
+                        'id' => 23,
+                    ]
+                ]
+            ],
+            [
+                'name' => 'node2',
+                'id' => 12,
+                'children' => [
+                    [
+                        'name' => 'child3',
+                        'id' => 2,
+                    ],
+                ]
+            ]
+        ];
     }
 
     protected function findModel($id)
