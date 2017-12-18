@@ -2,6 +2,7 @@
 namespace modules\menu\backend\controllers;
 
 use Yii;
+use yii\helpers\Json;
 use yii\filters\AccessControl;
 use modules\menu\backend\models\Menu;
 use modules\menu\backend\models\MenuSearch;
@@ -110,34 +111,23 @@ class ManageController extends \yii\web\Controller
 
     public function actionGetJsonTree($id)
     {
+        return $this->findModel($id)->getFamilyTreeArray();
+    }
+
+    public function actionSaveJsonTree($id)
+    {
         $root = $this->findModel($id);
-        // return $root->getFamilyTree();
-        return [
-            [
-                'name' => 'node1',
-                'id' => 123,
-                'children' => [
-                    [
-                        'name' => 'child1',
-                        'id' => 13,
-                    ],
-                    [
-                        'name' => 'child2',
-                        'id' => 23,
-                    ]
-                ]
-            ],
-            [
-                'name' => 'node2',
-                'id' => 12,
-                'children' => [
-                    [
-                        'name' => 'child3',
-                        'id' => 2,
-                    ],
-                ]
-            ]
-        ];
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            $root->removeChildren();
+            $root->attachTree(Json::decode(Yii::$app->request->rawBody));
+            $transaction->commit();
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            throw $e;
+        }
+        Yii::$app->session->addFlash('success', 'تغییرات با موفقیت ذخیره شد.');
+        return $this->redirect(['index']);
     }
 
     protected function findModel($id)
@@ -145,7 +135,9 @@ class ManageController extends \yii\web\Controller
         if (($model = Menu::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new \yii\web\NotFoundHttpException('The requested page does not exist.');
+            throw new \yii\web\NotFoundHttpException(
+                'The requested page does not exist.'
+            );
         }
     }
 }

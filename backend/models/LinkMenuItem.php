@@ -23,4 +23,24 @@ class LinkMenuItem extends Menu
             'url' => 'آدرس اینترنتی'
         ];
     }
+
+    public static function createItem($data)
+    {
+        $item = new self;
+        $item->title = $data['name'];
+        $item->url = $data['url'];
+        $item->type = 'link';
+        // $item->openInNewTab = true/false;
+        return $item;
+    }
+
+    public static function getFamilyTreeAttributes($item)
+    {
+        return [
+            'id' => $item->id,
+            'name' => $item->title,
+            'url' => $item->url,
+            'type' => 'link',
+        ];
+    }
 }

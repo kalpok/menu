@@ -33,6 +33,7 @@ class MenuSearch extends Menu
         }
         $query->andFilterWhere([
             'id' => $this->id,
+            'depth' => 0,
             'isActive' => $this->isActive
         ]);
         $query->andFilterWhere(['like', 'title', $this->title]);

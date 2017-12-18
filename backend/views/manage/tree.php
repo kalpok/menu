@@ -17,6 +17,16 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= ActionButtons::widget([
         'buttons' => [
             'index' => ['label' => 'لیست منو ها'],
+            'save' => [
+                'url' => ['save-json-tree', 'id' => $root->id],
+                'label' => 'ذخیره تغییرات',
+                'options' => [
+                    'id' => 'save-btn',
+                    'class' => 'pull-left'
+                ],
+                'icon' => 'save',
+                'type' => 'success'
+            ]
         ],
     ]); ?>
     <div class="row">
@@ -57,6 +67,18 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <?php
 $js = <<<JS
+$('#save-btn').on('click', function(e){
+    e.preventDefault();
+    $.ajax({
+        url: $(this).attr('href'),
+        type: 'POST',
+        data: $('#tree1').tree('toJson'),
+        contentType: 'application/json; charset=utf-8',
+        success: function(msg) {
+            // alert(msg);
+        }
+    });
+});
 $('#update-item-form').on('beforeSubmit', function(e) {
     $(this).parents('.panel').addClass('hidden');
     $('#tree1').tree(
@@ -74,6 +96,7 @@ $('#link-item-form').on('beforeSubmit', function(e) {
     node = {
         url: $(this).find('.url').val(),
         name: $(this).find('.title').val(),
+        type: 'link',
         id: Math.random().toString(36).substr(2, 5)
     };
     $('#tree1').tree('appendNode', node);
