@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'core\grid\IDColumn'],
+            ['class' => 'yii\grid\SerialColumn'],
             ['class' => 'core\grid\LanguageColumn'],
             'title',
             'createdAt:date',

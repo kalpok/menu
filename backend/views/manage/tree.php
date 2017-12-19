@@ -22,7 +22,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'ذخیره تغییرات',
                 'options' => [
                     'id' => 'save-btn',
-                    'class' => 'pull-left'
+                    'class' => 'pull-left',
+                    'data-menuid' => $root->id
                 ],
                 'icon' => 'save',
                 'type' => 'success'
@@ -135,7 +136,7 @@ $this->registerJs($js);
         );
         $.getJSON(
             'get-json-tree',
-            'id=1',
+            'id='+$('#save-btn').attr('data-menuid'),
             function(data) {
                 $('#loading').addClass('hidden');
                 $('#tree1').tree({
