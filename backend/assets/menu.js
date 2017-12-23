@@ -22,6 +22,7 @@ $(function() {
                 var node = event.node;
                 form.find('.id').val(node.id);
                 form.find('.title').val(node.name);
+                form.find('.ntab').prop('checked', node.ntab);
                 if(node.hasOwnProperty('url')){
                     form.find('.url').val(node.url).attr('disabled', false)
                         .parent('.form-group').removeClass('hidden');
@@ -54,6 +55,7 @@ $('#update-item-form').on('beforeSubmit', function(e) {
         {
             url: $(this).find('.url').val(),
             name: $(this).find('.title').val(),
+            ntab: $(this).find('.ntab').is(':checked'),
         }
     );
     $(this).trigger('reset');
@@ -72,6 +74,7 @@ $('#link-item-form').on('beforeSubmit', function(e) {
     node = {
         url: $(this).find('.url').val(),
         name: $(this).find('.title').val(),
+        ntab: $(this).find('.ntab').is(':checked'),
         type: 'link',
         id: Math.random().toString(36).substr(2, 5)
     };

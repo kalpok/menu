@@ -20,7 +20,8 @@ class LinkMenuItem extends Menu
     {
         return [
             'title' => 'عنوان',
-            'url' => 'آدرس اینترنتی'
+            'url' => 'آدرس اینترنتی',
+            'openInNewTab' => 'باز شدن در تب جدید',
         ];
     }
 
@@ -30,7 +31,7 @@ class LinkMenuItem extends Menu
         $item->title = $data['name'];
         $item->url = $data['url'];
         $item->type = 'link';
-        // $item->openInNewTab = true/false;
+        $item->openInNewTab = $data['ntab'];
         return $item;
     }
 
@@ -40,6 +41,7 @@ class LinkMenuItem extends Menu
             'id' => $item->id,
             'name' => $item->title,
             'url' => $item->url,
+            'ntab' => (bool) $item->openInNewTab,
             'type' => 'link',
         ];
     }

@@ -27,6 +27,7 @@ use yii\widgets\ActiveForm;
             ]
         )
 ?>
+<?= $form->field($menuItem, 'openInNewTab')->checkbox(['class' => 'ntab']); ?>
 <?php
     $btnLabel = ($scenario == 'update') ? 'بروزرسانی' : 'افزودن';
     $btnClass = ($scenario == 'update') ? 'btn-success' : 'btn-primary';
