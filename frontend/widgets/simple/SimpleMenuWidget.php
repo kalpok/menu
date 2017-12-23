@@ -1,9 +1,9 @@
 <?php
-namespace modules\menu\frontend\widgets\menu;
+namespace modules\menu\frontend\widgets\simple;
 
 use modules\menu\common\models\Menu;
 
-class MenuWidget extends \yii\base\Widget
+class SimpleMenuWidget extends \yii\base\Widget
 {
     public $menuId;
     public $showTitle;
@@ -31,7 +31,8 @@ class MenuWidget extends \yii\base\Widget
         return $this->render(
             $this->view,
             [
-                'menu' => $menu
+                'menu' => $menu,
+                'items' => $menu->children(1)->all(),
             ]
         );
     }
