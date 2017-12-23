@@ -1,12 +1,13 @@
 <?php
-namespace modules\menu\frontend\widgets\simple;
+namespace modules\menu\frontend\widgets\nested;
 
 use modules\menu\common\models\Menu;
 
-class SimpleMenuWidget extends \yii\base\Widget
+class NestedMenuWidget extends \yii\base\Widget
 {
     public $menuId;
     public $showTitle = false;
+    public $useYiiMenuWidget = true;
     public $view = 'default';
 
     public function init()
@@ -28,12 +29,10 @@ class SimpleMenuWidget extends \yii\base\Widget
         ) {
             return;
         }
-        return $this->render(
-            $this->view,
-            [
-                'menu' => $menu,
-                'items' => $menu->children(1)->all(),
-            ]
-        );
+        if ($this->useYiiMenuWidget) {
+            return 'coming soon';
+        } else {
+            return $this->render($this->view, ['menu' => $menu]);
+        }
     }
 }
