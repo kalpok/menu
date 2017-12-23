@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = ['label' => 'مدیریت منو ها', 'url' =
 $this->params['breadcrumbs'][] = $root->title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="menu-tree">
+<div class="menu-tree-view">
     <?= ActionButtons::widget([
         'buttons' => [
             'index' => ['label' => 'لیست منو ها'],
@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <span class="sr-only">Loading...</span>
                 </div>
 
-                <div id="tree1"></div>
+                <div id="menu-tree"></div>
             <?php Panel::end() ?>
         </div>
     </div>
@@ -73,18 +73,15 @@ $('#save-btn').on('click', function(e){
     $.ajax({
         url: $(this).attr('href'),
         type: 'POST',
-        data: $('#tree1').tree('toJson'),
-        contentType: 'application/json; charset=utf-8',
-        success: function(msg) {
-            // alert(msg);
-        }
+        data: $('#menu-tree').tree('toJson'),
+        contentType: 'application/json; charset=utf-8'
     });
 });
 $('#update-item-form').on('beforeSubmit', function(e) {
     $(this).parents('.panel').addClass('hidden');
-    $('#tree1').tree(
+    $('#menu-tree').tree(
         'updateNode',
-        $('#tree1').tree('getNodeById', $(this).find('.id').val()),
+        $('#menu-tree').tree('getNodeById', $(this).find('.id').val()),
         {
             url: $(this).find('.url').val(),
             name: $(this).find('.title').val(),
@@ -93,6 +90,15 @@ $('#update-item-form').on('beforeSubmit', function(e) {
     $(this).trigger('reset');
     return false;
 });
+$('#remove-item').on('click', function(e) {
+    var result = confirm('این لینک به همراه زیر شاخه هایش حذف شود؟');
+    if (result) {
+        $(this).parents('.panel').addClass('hidden');
+        var id = $('#update-item-form').find('.id').val();
+        var node = $('#menu-tree').tree('getNodeById', id);
+        $('#menu-tree').tree('removeNode', node);
+    }
+});
 $('#link-item-form').on('beforeSubmit', function(e) {
     node = {
         url: $(this).find('.url').val(),
@@ -100,7 +106,7 @@ $('#link-item-form').on('beforeSubmit', function(e) {
         type: 'link',
         id: Math.random().toString(36).substr(2, 5)
     };
-    $('#tree1').tree('appendNode', node);
+    $('#menu-tree').tree('appendNode', node);
     $(this).trigger('reset');
     return false;
 });
@@ -110,7 +116,7 @@ $this->registerJs($js);
 ?>
 <?php $this->registerJs("
     $(function() {
-        $('#tree1').bind(
+        $('#menu-tree').bind(
             'tree.select',
             function(event) {
                 form = $('#update-item-form');
@@ -139,8 +145,9 @@ $this->registerJs($js);
             'id='+$('#save-btn').attr('data-menuid'),
             function(data) {
                 $('#loading').addClass('hidden');
-                $('#tree1').tree({
+                $('#menu-tree').tree({
                     dragAndDrop: true,
+                    autoOpen: 1,
                     data: data,
                     rtl: true
                 });
@@ -148,3 +155,13 @@ $this->registerJs($js);
         );
     });
 ") ?>
+
+<style type="text/css">
+ul.jqtree-tree .jqtree-element {
+    padding: 5px 10px 0;
+    border: 1px solid #ccc;
+    margin: 10px 0;
+    border-radius: 3px;
+    background-color: #f9f9f9;
+}
+</style>

@@ -13,7 +13,7 @@ use yii\widgets\ActiveForm;
         ->textInput(
             [
                 'maxlength' => 255,
-                'class' => 'form-control input-xlarge title'
+                'class' => 'form-control title'
             ]
         )
 ?>
@@ -23,7 +23,7 @@ use yii\widgets\ActiveForm;
             [
                 'maxlength' => 255,
                 'style' => 'direction:ltr',
-                'class' => 'form-control input-xlarge url'
+                'class' => 'form-control url'
             ]
         )
 ?>
@@ -37,5 +37,16 @@ use yii\widgets\ActiveForm;
         ['class' => "btn $btnClass"]
     )
 ?>
+<?php if ($scenario == 'update') : ?>
+<?=
+    Html::button(
+        "<i class=\"fa fa-trash\"></i> حذف لینک",
+        [
+            'id' => 'remove-item',
+            'class' => "btn btn-danger pull-left"
+        ]
+    )
+?>
+<?php endif ?>
 <?= Html::hiddenInput('itemId', null, ['class' => 'id']) ?>
 <?php ActiveForm::end();
