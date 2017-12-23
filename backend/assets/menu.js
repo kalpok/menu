@@ -1,4 +1,8 @@
 $(function() {
+    if (!$('#save-btn').data('isrtl')) {
+        $('#menu-tree').css('direction', 'ltr');
+        $('input.title').css('direction', 'ltr');
+    }
     $.getJSON(
         'get-json-tree',
         'id='+$('#save-btn').attr('data-menuid'),
@@ -8,7 +12,7 @@ $(function() {
                 dragAndDrop: true,
                 autoOpen: 1,
                 data: data,
-                rtl: true
+                rtl: $('#save-btn').data('isrtl')
             });
         }
     );

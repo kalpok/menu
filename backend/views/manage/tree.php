@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\bootstrap\Alert;
 use yii\widgets\ActiveForm;
 use themes\admin360\widgets\Panel;
 use themes\admin360\widgets\ActionButtons;
@@ -23,13 +24,26 @@ $this->params['breadcrumbs'][] = $this->title;
                 'options' => [
                     'id' => 'save-btn',
                     'class' => 'pull-left',
-                    'data-menuid' => $root->id
+                    'data-menuid' => $root->id,
+                    'data-isrtl' => $root->language == 'fa' ? 'true' : 'false',
                 ],
                 'icon' => 'save',
                 'type' => 'success'
             ]
         ],
     ]); ?>
+    <div class="row">
+        <div class="col-md-5">
+            <?php Alert::begin(['options' => ['class' => 'alert-warning'], 'closeButton' => false]); ?>
+                حذف یک لینک، همه ی زیر شاخه های آن لینک را نیز حذف می کند!
+            <?php Alert::end() ?>
+        </div>
+        <div class="col-md-7">
+            <?php Alert::begin(['options' => ['class' => 'alert-info'], 'closeButton' => false]); ?>
+                تغییرات تنها پس از فشردن دکمه ی «ذخیره تغییرات» نهایی و در سرور ذخیره می شوند.
+            <?php Alert::end() ?>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-5">
             <?php Panel::begin([
