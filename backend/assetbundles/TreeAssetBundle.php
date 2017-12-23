@@ -5,12 +5,14 @@ use yii\web\AssetBundle;
 
 class TreeAssetBundle extends AssetBundle
 {
-    public $sourcePath = '@modules/menu/backend/assets/jqTree';
+    public $sourcePath = '@modules/menu/backend/assets';
     public $css = [
-        'jqtree.css',
+        'menu.css',
+        'jqTree/jqtree.css',
     ];
     public $js = [
-        'tree.jquery.js',
+        'menu.js',
+        'jqTree/tree.jquery.js',
     ];
     public $depends = [
         'yii\web\JqueryAsset',
