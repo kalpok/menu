@@ -3,8 +3,8 @@
 use yii\helpers\Html;
 use yii\bootstrap\Alert;
 use yii\widgets\ActiveForm;
-use themes\admin360\widgets\Panel;
-use themes\admin360\widgets\ActionButtons;
+use theme\widgets\Panel;
+use theme\widgets\ActionButtons;
 use modules\menu\backend\assetbundles\TreeAssetBundle;
 
 TreeAssetBundle::register($this);

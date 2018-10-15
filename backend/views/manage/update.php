@@ -1,6 +1,6 @@
 <?php
 use yii\helpers\Html;
-use themes\admin360\widgets\ActionButtons;
+use theme\widgets\ActionButtons;
 
 $this->title = 'ویرایش منو';
 $this->params['breadcrumbs'][] = ['label' => 'مدیریت منو ها', 'url' => ['index']];
