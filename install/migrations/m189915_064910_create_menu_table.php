@@ -23,7 +23,7 @@ class m189915_064910_create_menu_table extends Migration
             'origin' => $this->string()->comment("module name if it is from one."),
             'openInNewTab' => $this->boolean()->notNull()->defaultValue(0),
             'isActive' => $this->boolean()->notNull()->defaultValue(1),
-            'tree' => $this->integer()->notNull(),
+            'tree' => $this->integer(),
             'lft' => $this->integer()->notNull(),
             'rgt' => $this->integer()->notNull(),
             'depth' => $this->integer()->notNull(),
